@@ -22,6 +22,7 @@ func _ready():
 	get_parent()\
 	.get_node(nav2 + towerleft)\
 	.connect("TowerULDestroyed", self, "_on_Position3D_TowerULDestroyed")
+# warning-ignore:return_value_discarded
 	get_parent()\
 	.get_node(nav2 + towermiddle)\
 	.connect("TowerMidDestroyed", self, "_on_Position3D_TowerMidDestroyed")
@@ -30,18 +31,11 @@ func _physics_process(_delta):
 	if path.size() > 0:
 		if (self.global_transform.origin - target.global_transform.origin).length() >= distance2target:
 			move_to_target()
-#		else:
-#			if !has_been_called:
-#				$DmgTimer.start()
-#				print("$DmgTimer.start()")
-#				has_been_called = true
-
-func _process(delta):
-	if (self.global_transform.origin - target.global_transform.origin).length() <= distance2target:
-		if !has_been_called:
-			$DmgTimer.start()
-			print("$DmgTimer.start()")
-			has_been_called = true
+		else:
+			if !has_been_called:
+				$DmgTimer.start(0)
+				print("$DmgTimer.start()")
+				has_been_called = true
 
 func move_to_target():
 	if cur_path_idx >= path.size():
@@ -52,7 +46,8 @@ func move_to_target():
 	else:
 		var direction = path[cur_path_idx] - global_transform.origin
 		velocity = direction.normalized() * speed
-#		global_rotate(Vector3.UP, direction.angle())
+		var direct = Vector2(direction.z, direction.x).angle() - PI
+		self.set_rotation(Vector3(0, direct, 0))
 # warning-ignore:return_value_discarded
 		move_and_slide(velocity, Vector3.UP)
 
@@ -69,17 +64,19 @@ func _on_PathfindingTimer_timeout():
 
 func _on_DmgTimer_timeout():
 	$AnimationPlayer.play("Fire")
-	yield(get_tree().create_timer(1.0), "timeout")
+	yield(get_tree().create_timer(1.5), "timeout")
 	print("timeout")
 	do_dmg(100)
 
 func _on_Position3D_TowerULDestroyed():
-	$AnimationPlayer.stop()
+	$AnimationPlayer.play("RESET")
+	$DmgTimer.stop()
+	print($DmgTimer.get_wait_time())
 	target = get_parent().get_node(nav2 + towermiddle)
-	print(target)
+	has_been_called = false
 
 
 func _on_Position3D_TowerMidDestroyed():
-	$AnimationPlayer.stop()
+	$AnimationPlayer.play("RESET")
 	$DmgTimer.stop()
 	print("won")
