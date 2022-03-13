@@ -11,12 +11,12 @@ config_version=4
 [application]
 
 config/name="Bridge Crossers"
-run/main_scene="res://scr/scenes/Main.tscn"
+run/main_scene="res://src/scenes/Main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Globals="*res://scr/scripts/Globals.gd"
+Globals="*res://src/scripts/Globals.gd"
 
 [display]
 
