@@ -22,3 +22,8 @@ func _on_Area_mouse_exited():
 func _on_Area_input_event(_camera, event, _position, _normal, _shape_idx):
 	if (event is InputEventMouseButton && event.button_index == 1 && event.pressed):
 		get_parent().spawn_enemy($Sprite3D.global_transform.origin)
+
+
+func _on_Tile_body_entered(body):
+	queue_free()
+#	pass

@@ -95,11 +95,11 @@ material = ExtResource( 3 )
 
 [node name="Corners" type="Spatial" parent="Navigation/NavigationMeshInstance/Level"]
 
-[node name="UL" type="Position3D" parent="Navigation/NavigationMeshInstance/Level/Corners"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.03662, -7.5 )
+[node name="DL" type="Position3D" parent="Navigation/NavigationMeshInstance/Level/Corners"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.03662, 7.5 )
 
-[node name="DR" type="Position3D" parent="Navigation/NavigationMeshInstance/Level/Corners"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.03662, 7.5 )
+[node name="UR" type="Position3D" parent="Navigation/NavigationMeshInstance/Level/Corners"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.03662, -7.5 )
 
 [node name="Spatial" type="Spatial" parent="Navigation/NavigationMeshInstance/Level"]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 5.12379, 3.02203 )
@@ -108,4 +108,5 @@ transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 5.12379, 3.02203 )
 transform = Transform( 1, 0, 0, 0, 0.524432, 0.851452, 0, -0.851452, 0.524432, 0, 3.87648, 0 )
 
 [node name="Camera" type="Camera" parent="Navigation/NavigationMeshInstance/Level/Spatial"]
-transform = Transform( 1, 0, 0, 0, 0.403737, 0.914875, 0, -0.914875, 0.403737, 0, 11.8422, 5.52558 )
+transform = Transform( 0.333333, 0, 0, 0, 0.134579, 0.304958, 0, -0.304958, 0.134579, -1.27157e-06, 13.4661, 5.5168 )
+far = 741.6

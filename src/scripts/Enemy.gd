@@ -17,7 +17,10 @@ var towerleft: String = "TowerMiddleU/TowerLeft/Position3D"
 var towermiddle: String = "TowerMiddleU/Position3D"
 
 func _ready():
-	target = self.get_parent().get_node(nav2 + towerleft)
+	if !Globals.TowerULDestroyed:
+		target = self.get_parent().get_node(nav2 + towerleft)
+	else:
+		target = self.get_parent().get_node(nav2 + towermiddle)
 # warning-ignore:return_value_discarded
 	get_parent()\
 	.get_node(nav2 + towerleft)\
@@ -60,7 +63,8 @@ func do_dmg(dmg):
 	print(target.health)
 
 func _on_PathfindingTimer_timeout():
-	get_target_path(target.global_transform.origin)
+	if target != null:
+		get_target_path(target.global_transform.origin)
 
 func _on_DmgTimer_timeout():
 	$AnimationPlayer.play("Fire")

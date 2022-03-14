@@ -9,22 +9,30 @@ var tile = preload("res://src/scenes/Tile.tscn")
 var enemy = preload("res://src/scenes/Enemy.tscn")
 
 var mapcorners: String = "Navigation/NavigationMeshInstance/Level/Corners/"
-var uldr = ["UL", "DR"]
-var dim: Vector3 = Vector3.ZERO
-var sc: int = 10
+var siz: Vector2
+var sc: Vector2
+var col: int = 30
+var row: int = 30
+var dlpos: Vector3
+var urpos: Vector3
 
 func _ready():
-	for i in uldr:
-		dim.x += abs(get_node(mapcorners + i).get_global_transform().origin.x)
-		dim.y = abs(get_node(mapcorners + i).get_global_transform().origin.y)
-		dim.z += abs(get_node(mapcorners + i).get_global_transform().origin.z)
+	dlpos = get_node(mapcorners + "DL").get_global_transform().origin
+	urpos = get_node(mapcorners + "UR").get_global_transform().origin
 
-	for i in range(-dim.x/0.4/2/sc, dim.x/0.4/2/sc):
-		for j in range(-dim.z/0.4/2/sc, dim.z/0.4/2/sc):
+	siz.x = urpos.x - dlpos.x
+	siz.y = dlpos.z - urpos.z
+
+	sc.x = siz.x/col
+	sc.y = siz.y/row
+
+	for x in range(col):
+		for y in range(row):
 			var tileinstance = tile.instance()
 			add_child(tileinstance)
-			tileinstance.global_scale(Vector3(sc, 1, sc))
-			tileinstance.global_transform.origin = Vector3(0.4 * i * sc, dim.y, 0.4 * j * sc)
+			tileinstance.set_scale(Vector3(sc.x, 1, sc.y))
+			tileinstance.global_transform.origin\
+				= dlpos - Vector3(-x * sc.x, 0, y * sc.y)
 
 func _unhandled_input(event):
 	if (event is InputEventMouseButton && event.button_index == 1 && event.pressed && !Globals.on_area):
@@ -33,5 +41,5 @@ func _unhandled_input(event):
 func spawn_enemy(position):
 	var tileinstance = enemy.instance()
 	get_node("Navigation").add_child(tileinstance)
-	tileinstance.global_scale(Vector3(sc/1.5, sc/1.5, sc/1.5))
+	tileinstance.global_scale(Vector3(sc.x/0.5, (sc.x + sc.y) / 2 / 0.5, sc.y/0.5))
 	tileinstance.global_transform.origin = position
