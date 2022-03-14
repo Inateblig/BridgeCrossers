@@ -1,12 +1,12 @@
 extends Position3D
 
-signal TowerMidDestroyed
+signal TowerURDestroyed
 
-var health = Globals.TowerMidHealth
+var health = Globals.TowerHealth
 var has_been_called = false
 
 func _process(_delta):
 	if health <= 0 and !has_been_called:
 		get_parent().visible = false
-		emit_signal("TowerMidDestroyed")
+		emit_signal("TowerURDestroyed")
 		has_been_called = true
